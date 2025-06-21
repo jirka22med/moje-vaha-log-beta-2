@@ -1402,9 +1402,9 @@ th {
       }
     }
 
-    function exportToCSV() {
+   function exportToCSV() {
         if (weightLog.length === 0) {
-            showNotification("Není co exportovat.", 2000);
+            showNotification("Neni co exportovat.", 2000);
             return;
         }
         const headers = ['Datum', 'Vaha (kg)', 'BMI', 'Telesny tuk (%)', 'Svalova hmota (%)', 'Svalova hmota (%)', 'Voda v tele (%)', 'Manual BMR', 'Manual AMR', 'Poznamky'];
@@ -1438,37 +1438,37 @@ th {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        showNotification('CSV export dokončen!');
+        showNotification('CSV export dokoncen!');
     }
 
     function exportToPDF() {
         if (weightLog.length === 0) {
-            showNotification("Není co exportovat.", 2000);
+            showNotification("Neni co exportovat.", 2000);
             return;
         }
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         
         doc.setFontSize(18);
-        doc.text('Váhový report - Admirál Jiřík', 14, 22);
+        doc.text('Vahovy report - Admiral Jirik', 14, 22);
         doc.setFontSize(11);
-        doc.text(`Generováno: ${formatDateForDisplay(new Date().toISOString().split('T')[0])}`, 14, 30);
-        doc.text(`Výška: ${settings.height} cm, Věk: ${settings.age || '-'} let, Pohlaví: ${settings.gender === 'male' ? 'Muž' : 'Žena'}`, 14, 36);
+        doc.text(`Generovano: ${formatDateForDisplay(new Date().toISOString().split('T')[0])}`, 14, 30);
+        doc.text(`Vyska: ${settings.height} cm, Vek: ${settings.age || '-'} let, Pohlavi: ${settings.gender === 'male' ? 'Muz' : 'Zena'}`, 14, 36);
         
         const latestEntry = [...weightLog].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
         if (latestEntry) {
             const currentBMI = calculateBMI(latestEntry.weight, settings.height);
             const theoBMR = calculateBMR(latestEntry.weight, settings.height, settings.age, settings.gender);
             const theoAMR = calculateAMR(theoBMR, settings.activityLevel);
-            doc.text(`Aktuální váha: ${latestEntry.weight.toFixed(1)} kg, BMI: ${currentBMI > 0 ? currentBMI.toFixed(1) : '-'}`, 14, 42);
+            doc.text(`Aktualni vaha: ${latestEntry.weight.toFixed(1)} kg, BMI: ${currentBMI > 0 ? currentBMI.toFixed(1) : '-'}`, 14, 42);
             if (latestEntry.manualBMR || latestEntry.manualAMR) {
-                 doc.text(`Posl. zadaný BMR: ${latestEntry.manualBMR || '-'} kcal, AMR: ${latestEntry.manualAMR || '-'} kcal`, 14, 48);
+                 doc.text(`Posl. zadany BMR: ${latestEntry.manualBMR || '-'} kcal, AMR: ${latestEntry.manualAMR || '-'} kcal`, 14, 48);
             } else {
-                doc.text(`Teoretický BMR: ${theoBMR > 0 ? Math.round(theoBMR) : '-'} kcal, AMR: ${theoAMR > 0 ? Math.round(theoAMR) : '-'} kcal`, 14, 48);
+                doc.text(`Teoreticky BMR: ${theoBMR > 0 ? Math.round(theoBMR) : '-'} kcal, AMR: ${theoAMR > 0 ? Math.round(theoAMR) : '-'} kcal`, 14, 48);
             }
         }
 
-        const tableColumn = ["#", "Datum", "Váha", "BMI", "Tuk%", "Svaly%", "Voda%", "Zad.BMR", "Zad.AMR"];
+        const tableColumn = ["#", "Datum", "Vaha", "BMI", "Tuk%", "Svaly%", "Voda%", "Zad.BMR", "Zad.AMR"];
         const tableRows = [];
         const sortedLog = [...weightLog].sort((a, b) => new Date(a.date) - new Date(b.date)); 
 
@@ -1506,12 +1506,12 @@ th {
         });
         
         doc.save(`vaha_report_Jirik_${new Date().toISOString().split('T')[0]}.pdf`);
-        showNotification('PDF report dokončen!');
+        showNotification('PDF report dokoncen!');
     }
 
     function exportChartsAsPDF() {
         if (weightLog.length === 0) {
-            showNotification("Nejsou data pro export grafů.", 2000);
+            showNotification("Nejsou data pro export grafu.", 2000);
             return;
         }
         const { jsPDF } = window.jspdf;
@@ -1522,16 +1522,16 @@ th {
         const spacing = 10;    
 
         doc.setFontSize(18);
-        doc.text('Grafy vývoje - Admirál Jiřík', doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
+        doc.text('Grafy vyvoje - Admiral Jirik', doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
 
         const chartsToExport = [
-            { canvasId: 'weightChart', title: 'Vývoj váhy' },
-            { canvasId: 'bmiChart', title: 'Vývoj BMI' },
-            { canvasId: 'bodyFatOnlyChart', title: 'Vývoj tělesného tuku (%)' },
-            { canvasId: 'muscleMassOnlyChart', title: 'Vývoj svalové hmoty (%)' },
-            { canvasId: 'bodyWaterChart', title: 'Vývoj vody v těle (%)' },
-            { canvasId: 'manualBMRChart', title: 'Vývoj zadaného BMR (kcal)' },
-            { canvasId: 'manualAMRChart', title: 'Vývoj zadaného AMR (kcal)' }
+            { canvasId: 'weightChart', title: 'Vyvoj vahy' },
+            { canvasId: 'bmiChart', title: 'Vyvoj BMI' },
+            { canvasId: 'bodyFatOnlyChart', title: 'Vyvoj telesneho tuku (%)' },
+            { canvasId: 'muscleMassOnlyChart', title: 'Vyvoj svalove hmoty (%)' },
+            { canvasId: 'bodyWaterChart', title: 'Vyvoj vody v tele (%)' },
+            { canvasId: 'manualBMRChart', title: 'Vyvoj zadaneho BMR (kcal)' },
+            { canvasId: 'manualAMRChart', title: 'Vyvoj zadaneho AMR (kcal)' }
         ];
 
         chartsToExport.forEach((chartInfo, index) => {
@@ -1557,7 +1557,7 @@ th {
         });
         
         doc.save(`vaha_grafy_Jirik_${new Date().toISOString().split('T')[0]}.pdf`);
-        showNotification('Grafy exportovány do PDF!');
+        showNotification('Grafy exportovany do PDF!');
     }
 
     function exportBackup() {
@@ -1566,7 +1566,7 @@ th {
             settings: settings,
             goals: goals,
             exportDate: new Date().toISOString(),
-            appName: "Pokročilý váhový tracker více admirála Jiříka",
+            appName: "Pokrocily vahovy tracker vice admirala Jirika",
             version: "1.5.0"
         };
         const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
@@ -1576,7 +1576,7 @@ th {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        showNotification('Úplná záloha vytvořena!');
+        showNotification('Uplna zaloha vytvorena!');
     }
 
     function importFromCSV(inputElement) {
